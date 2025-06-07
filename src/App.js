@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Friends from "./Friends";
+import BillSplit from "./BillSplit";
+import { useState } from "react";
+
+const friends = ["Clark", "Sarah", "Anthony", "Jane"];
 
 function App() {
+  const [selected, setSelected] = useState('');
+
+  function userSelect(name) {
+    setSelected(name === selected ? '':name);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+        {friends.map((item, index) => (
+          <Friends buttonText={selected === item ? 'close' : 'select'} className={selected === item ? 'friends active' : 'friends'} onClick={()=>userSelect(item)} key={index} name={item} />
+        ))}
+      </div>
+      {selected ? 
+        <>
+        <BillSplit selectedUser={selected}></BillSplit>
+        </>
+        :
+        ''
+      }
     </div>
   );
 }
